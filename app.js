@@ -1,23 +1,21 @@
 const http = require('http')
+const fs = require('fs')//file stream
 const port = 3000
 
 const server  = http.createServer(function(req, res){
-    res.writeHead(200, {'Content-Type': 'text/html'}); // Set response header
-    res.write('<!DOCTYPE html>');
-    res.write('<html>');
-    res.write('<head><title>Hello Node</title></head>');
-    res.write('<body>');
-    for (var i = 0; i < 10; i++) {
-        res.write('<p>Hello Node</p>'); // Write response
-    }
-    res.write('</body>');
-    res.write('</html>');
-    res.end();
+    res.writeHead(200,{'Content-Type': 'text/html'})
+    fs.readFile('index.html', function(error, data){
+        if(error){
+            res.writeHead(404)
+            res.write('Error: File not found')
+        }else{
+            for(var i = 0; i < 10; i++){
+                    res.write(data)
+            }
 
-
-/*    
-    for(var i; i = 0;i++)
-    */
+        }
+        res.end()
+    })
 })
 
 server.listen(port, function(error){
